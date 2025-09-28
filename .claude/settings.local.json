@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mkdir:*)",
+      "WebFetch(domain:docs.google.com)",
+      "Read(//Users/bmc/Desktop/**)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
