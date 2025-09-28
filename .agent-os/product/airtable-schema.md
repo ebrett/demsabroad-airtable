@@ -4,29 +4,29 @@
 
 This document defines the complete Airtable base structure for the Event Management System, designed to replace the current Google Forms and spreadsheet workflow.
 
+**Last Updated:** September 28, 2025 (from live API schema)
+
 ---
 
 ## Table 1: Events Master
 
 **Purpose**: Central hub for all event information, linking to speakers, tasks, volunteers, and committees.
 
-### Fields
+**Table ID**: `tbldUqVq6Er0ivwFW`
+
+### Fields (50)
 
 | Field Name | Field Type | Description | Options/Validation |
 |------------|-----------|-------------|-------------------|
-| Event ID | Auto Number | Unique identifier | Auto-generated |
 | Event Name | Single line text | Event title | Required |
 | Event Type | Single select | Type of event | Webinar, Panel, Town Hall, Meet & Greet, Other |
 | Event Date | Date | Scheduled date | Required |
-| Event Time | Single line text | Time with timezone | Required (format: "9:00 AM ET") |
-| Timezone | Single select | Primary timezone | ET, CET, BST, PT, etc. |
+| Event Time | Single line text | Time (all events in ET) | Required (format: "9:00 AM ET") |
 | Status | Single select | Current event status | Date Reserved, Draft, Pending Approval, Approved, Scheduled, In Progress, Completed, Cancelled |
-| Approval Status | Single select | Approval workflow | Pending, Approved, Needs Revision |
-| Approver | Single line text | Name of approver | |
-| Host Organization | Multiple select | Hosting entity | Global Caucus names, Country Committees |
+| Host Organization | Multiple select | Hosting entity | Global Black Caucus, Global Disability Caucus, Global LGBTQ+ Caucus, Global Seniors Caucus, Global Women's Caucus, Global Youth Caucus, Global Veterans & Military Families Caucus, Global Environmental & Climate Caucus, Global Asian Pacific Islander Caucus, Global Latino Caucus |
 | Co-hosts | Multiple select | Co-hosting entities | Same options as Host Organization |
-| Overview/Purpose | Long text | Event description and goals | Required |
-| Target Audience | Long text | Intended audience description | |
+| Overview/Purpose | Rich text | Event description and goals | Required |
+| Target Audience | Multi-line text | Intended audience description | |
 | Expected Attendance | Number | Estimated attendees | |
 | Zoom Meeting Link | URL | Zoom webinar/meeting URL | Auto-populated by script |
 | Zoom Registration Link | URL | Public registration URL | Auto-populated by script |
@@ -37,10 +37,6 @@ This document defines the complete Airtable base structure for the Event Managem
 | Recording URL | URL | Link to recorded event | Added post-event |
 | Event Organizer Name | Single line text | Name of organizer | Required |
 | Event Organizer Email | Email | Organizer contact | Required |
-| Speakers | Link to another record | Links to Speakers Database | Multiple allowed |
-| Tasks | Link to another record | Links to Tasks & Workflow | Multiple allowed |
-| Volunteers | Link to another record | Links to Volunteers & Staff | Multiple allowed |
-| Committees | Link to another record | Links to Committees & Caucuses | Multiple allowed |
 | NationBuilder Synced | Checkbox | Synced to NationBuilder | Auto-checked by script |
 | NationBuilder Event ID | Single line text | NB event identifier | Auto-populated |
 | Mighty Networks Posted | Checkbox | Posted to Mighty Networks | Auto-checked by script |
@@ -51,42 +47,55 @@ This document defines the complete Airtable base structure for the Event Managem
 | Run of Show URL | URL | Link to run of show document | |
 | Signal Green Room Created | Checkbox | Speaker green room set up | |
 | Signal Green Room Link | URL | Link to Signal chat | |
-| Website Posted | Checkbox | Event posted to DA website | |
-| Website Event URL | URL | Link to event on website | |
 | Calendar Invite Sent | Checkbox | Calendar file sent to members | |
 | Thank You Sent | Checkbox | Thank you emails sent to speakers/guests | |
 | Post-Event Mighty Posted | Checkbox | Recording/recap posted to Mighty | |
 | Post-Event Mighty URL | URL | Link to post-event Mighty post | |
 | Video Edited | Checkbox | Recording edited and finalized | |
-| Special Instructions | Long text | Any special notes or requirements | |
+| Special Instructions | Multi-line text | Any special notes or requirements | |
 | Created Date | Created time | Auto-timestamp | Auto-generated |
 | Last Modified | Last modified time | Auto-timestamp | Auto-generated |
+| Speakers | Link to another record | Links to Speakers table | Multiple allowed |
+| Tasks & Workflow | Link to another record | Links to Tasks & Workflow table | Multiple allowed |
+| Volunteers & Staff (Events Assigned) | Link to another record | Links to Volunteers & Staff table | Multiple allowed |
+| Volunteers & Staff (Events Approved) | Link to another record | Links to Volunteers & Staff table (approvers) | Multiple allowed |
+| Committees & Caucuses (Events Hosted) | Link to another record | Links to Committees & Caucuses table (hosts) | Multiple allowed |
+| Committees & Caucuses (Events Co-Hosted) | Link to another record | Links to Committees & Caucuses table (co-hosts) | Multiple allowed |
+| Email Communications | Link to another record | Links to Email Communications table | Multiple allowed |
+| Reports & Analytics | Link to another record | Links to Reports & Analytics table | Multiple allowed |
+| Tasks | Link to another record | Links to Tasks & Workflow table | Multiple allowed (alternate link field) |
+| Volunteers | Link to another record | Links to Volunteers & Staff table | Multiple allowed (alternate link field) |
+| Committees | Link to another record | Links to Committees & Caucuses table | Multiple allowed (alternate link field) |
+| Emails Sent | Link to another record | Links to Email Communications table | Multiple allowed (alternate link field) |
+| Reports | Link to another record | Links to Reports & Analytics table | Multiple allowed (alternate link field) |
+
+**Note**: All events use Eastern Time (ET). There is no separate timezone field - all times are assumed to be ET.
 
 ---
 
-## Table 2: Speakers Database
+## Table 2: Speakers
 
 **Purpose**: Centralized repository of all speaker information for easy reuse across events.
 
-### Fields
+**Table ID**: `tblxKGytwTnAucOZT`
+
+### Fields (33)
 
 | Field Name | Field Type | Description | Options/Validation |
 |------------|-----------|-------------|-------------------|
-| Speaker ID | Auto Number | Unique identifier | Auto-generated |
 | Speaker Name | Single line text | Full name | Required |
 | Email | Email | Primary contact email | Required |
 | Alternate Email | Email | Secondary contact | |
-| Timezone | Single select | Speaker's timezone | ET, CET, BST, PT, AEDT, etc. |
 | Phone | Phone number | Contact number | |
-| Photo | Attachment | Headshot/profile photo | Image files |
+| Photo | Multiple attachments | Headshot/profile photo | Image files |
 | Photo URL | URL | Link to photo (Google Drive, etc.) | |
-| Bio | Long text | Speaker biography | |
-| Bio Short | Long text | Shortened bio (1-2 paragraphs) | |
+| Bio | Rich text | Speaker biography | |
+| Bio Short | Multi-line text | Shortened bio (1-2 paragraphs) | |
 | Title/Role | Single line text | Current position | |
 | Organization | Single line text | Affiliated organization | |
-| DA Connection | Long text | How speaker connected with DA | |
+| DA Connection | Multi-line text | How speaker connected with DA | |
 | Speaker Type | Single select | Category of speaker | Elected Official, Candidate, Author, Academic, Activist, DA Member, Expert, Other |
-| Specialties/Topics | Multiple select | Areas of expertise | List of common topics |
+| Specialties/Topics | Multiple select | Areas of expertise | Healthcare, Climate, Education, Civil Rights, Immigration, Foreign Policy, Economics, Technology, Voting Rights, Democracy, Disability Rights, LGBTQ+ Rights, Women's Rights |
 | Social Media - LinkedIn | URL | LinkedIn profile | |
 | Social Media - Twitter/X | URL | Twitter handle/profile | |
 | Social Media - Facebook | URL | Facebook profile | |
@@ -96,17 +105,17 @@ This document defines the complete Airtable base structure for the Event Managem
 | Total Events | Count | Number of events participated in | Auto-calculated from Past Events |
 | Recording Consent Default | Single select | Default recording preference | Always Yes, Always No, Ask Each Time |
 | Livestream Consent Default | Single select | Default livestream preference | Always Yes, Always No, Ask Each Time |
-| Team Members | Long text | Names/emails of staff who attend | Format: Name (email) |
-| Availability Notes | Long text | General availability or constraints | |
-| Topics to Avoid | Long text | Sensitive topics to avoid | |
+| Team Members | Multi-line text | Names/emails of staff who attend | Format: Name (email) |
+| Availability Notes | Multi-line text | General availability or constraints | |
+| Topics to Avoid | Multi-line text | Sensitive topics to avoid | |
 | Foreign Policy Agreement Signed | Checkbox | Has acknowledged DA policy | |
 | Promotional Consent | Checkbox | OK with DA promotion | Default checked |
 | Status | Single select | Speaker status | Active, Inactive, Do Not Contact |
-| Notes | Long text | Internal notes about speaker | |
-| First Event Date | Date | Date of first DA event | Auto-calculated |
-| Last Event Date | Date | Date of most recent event | Auto-calculated |
+| Notes | Multi-line text | Internal notes about speaker | |
+| First Event Date | Rollup | Date of first DA event | Auto-calculated from Past Events |
+| Last Event Date | Rollup | Date of most recent event | Auto-calculated from Past Events |
 | Created Date | Created time | Record creation date | Auto-generated |
-| Last Modified | Last modified time | Last update | Auto-generated |
+| Last modified | Last modified time | Last update | Auto-generated |
 
 ---
 
@@ -114,11 +123,12 @@ This document defines the complete Airtable base structure for the Event Managem
 
 **Purpose**: Track all tasks associated with events, with automated task creation for standard workflows.
 
-### Fields
+**Table ID**: `tblf7ofibG2ibnvzt`
+
+### Fields (24)
 
 | Field Name | Field Type | Description | Options/Validation |
 |------------|-----------|-------------|-------------------|
-| Task ID | Auto Number | Unique identifier | Auto-generated |
 | Task Name | Single line text | Task description | Required |
 | Event | Link to another record | Links to Events Master | Required |
 | Task Type | Single select | Category of task | Graphics, Email, Social Media, Zoom Setup, Platform Posting, Video Editing, Documentation, Follow-up, Other |
@@ -126,20 +136,23 @@ This document defines the complete Airtable base structure for the Event Managem
 | Status | Single select | Current status | Not Started, In Progress, Completed, Blocked, Cancelled |
 | Priority | Single select | Task priority | Low, Medium, High, Urgent |
 | Due Date | Date | Deadline | |
-| Assigned To | Link to another record | Links to Volunteers & Staff | |
-| Description | Long text | Task details | |
-| Checklist | Long text | Sub-tasks (one per line) | |
-| Dependencies | Link to another record | Other tasks that must complete first | Links to Tasks & Workflow |
+| Description | Multi-line text | Task details | |
+| Checklist | Multi-line text | Sub-tasks (one per line) | |
+| Dependencies | Link to another record | Other tasks that must complete first | Links to Tasks & Workflow (self-referencing) |
+| Dependent Tasks | Link to another record | Tasks that depend on this one | Links to Tasks & Workflow (self-referencing, reverse link) |
 | Automation Type | Single select | If auto-created | Standard, Custom |
-| Platform | Single select | For posting tasks | NationBuilder, Mighty Networks, Facebook, YouTube, Website, Email, Signal |
+| Platform | Single select | For posting tasks | NationBuilder, Mighty Networks, Facebook, YouTube, Email, Signal |
 | Email Type | Single select | Type of email communication | Announcement, Calendar Invite, Speaker Intake Form, Panelist Zoom Link, Thank You, Reminder, Survey, Other |
 | Email Sent Date | Date | When email was sent | |
-| Email Recipients | Long text | Who received the email | |
+| Email Recipients | Multi-line text | Who received the email | |
 | Email Template Used | Single line text | Name of email template | |
-| Completion Notes | Long text | Notes added when completed | |
+| Completion Notes | Multi-line text | Notes added when completed | |
 | Created Date | Created time | Auto-timestamp | Auto-generated |
 | Completed Date | Date | When task was completed | |
 | Last Modified | Last modified time | Auto-timestamp | Auto-generated |
+| Volunteers & Staff | Link to another record | Links to Volunteers & Staff table (assigned to) | Multiple allowed |
+| Email Communications | Link to another record | Links to Email Communications table | Multiple allowed |
+| Events Master | Link to another record | Links to Events Master table | Multiple allowed (alternate link field) |
 
 ### Standard Workflow Tasks (Auto-Created)
 
@@ -177,28 +190,31 @@ When a new event is approved, these tasks are automatically created:
 
 **Purpose**: Track people who support events (volunteers, staff, moderators, tech support).
 
-### Fields
+**Table ID**: `tblsFrrK9BTEvICAN`
+
+### Fields (19)
 
 | Field Name | Field Type | Description | Options/Validation |
 |------------|-----------|-------------|-------------------|
-| Person ID | Auto Number | Unique identifier | Auto-generated |
 | Name | Single line text | Full name | Required |
 | Email | Email | Contact email | Required |
 | Phone | Phone number | Contact number | |
-| Timezone | Single select | Volunteer's timezone | ET, CET, BST, PT, etc. |
-| Role Type | Multiple select | Type of role(s) | Moderator, Tech Support, Graphics, Social Media, Outreach, General Volunteer, Staff |
-| Availability | Long text | General availability notes | |
-| Skills | Multiple select | Specific skills | Zoom Management, Graphic Design, Social Media, Writing, Translation, etc. |
-| Languages | Multiple select | Languages spoken | English, Spanish, French, German, etc. |
-| Country Committee | Single select | Local affiliation | List of country committees |
-| Caucus Membership | Multiple select | Caucus affiliations | List of caucuses |
+| Role Type | Multiple select | Type of role(s) | Moderator, Tech Support, Graphics, Social Media, Outreach, General Volunteer, Staff, Approver |
+| Availability | Multi-line text | General availability notes | |
+| Skills | Multiple select | Specific skills | Zoom Management, Graphic Design, Social Media, Writing, Translation, Video Editing, Event Planning, Public Speaking |
+| Languages | Multiple select | Languages spoken | English, Spanish, French, German, Italian, Portuguese, Mandarin, Arabic, Other |
+| Country Committee | Single select | Local affiliation | Global Black Caucus, Global Disability Caucus, Global LGBTQ+ Caucus, Global Seniors Caucus, Global Women's Caucus, Global Youth Caucus, Global Veterans & Military Families Caucus, Global Environmental & Climate Caucus, Global Asian Pacific Islander Caucus, Global Latino Caucus |
+| Caucus Membership | Multiple select | Caucus affiliations | Global Black Caucus, Global Disability Caucus, Global LGBTQ+ Caucus, Global Seniors Caucus, Global Women's Caucus, Global Youth Caucus, Global Veterans & Military Families Caucus, Global Environmental & Climate Caucus, Global Asian Pacific Islander Caucus, Global Latino Caucus |
 | Events Assigned | Link to another record | Links to Events Master | Multiple allowed |
 | Tasks Assigned | Link to another record | Links to Tasks & Workflow | Multiple allowed |
-| Total Events | Count | Number of events helped with | Auto-calculated |
+| Total Events | Count | Number of events helped with | Auto-calculated from Events Assigned |
+| Events Approved | Link to another record | Links to Events Master (events this person approved) | Multiple allowed |
 | Status | Single select | Current status | Active, Inactive, On Leave |
-| Notes | Long text | Internal notes | |
+| Notes | Multi-line text | Internal notes | |
 | Created Date | Created time | Record creation date | Auto-generated |
 | Last Modified | Last modified time | Last update | Auto-generated |
+| Email Communications | Link to another record | Links to Email Communications (emails sent by this person) | Multiple allowed |
+| Events Master | Link to another record | Links to Events Master | Multiple allowed (alternate link field) |
 
 ---
 
@@ -206,11 +222,12 @@ When a new event is approved, these tasks are automatically created:
 
 **Purpose**: Track organizing entities (country committees, global teams, caucuses) and their event involvement.
 
-### Fields
+**Table ID**: `tblTIn7IqSsgV7Hyx`
+
+### Fields (17)
 
 | Field Name | Field Type | Description | Options/Validation |
 |------------|-----------|-------------|-------------------|
-| Organization ID | Auto Number | Unique identifier | Auto-generated |
 | Name | Single line text | Official name | Required |
 | Type | Single select | Organization type | Country Committee, Global Team, Global Caucus, Chapter |
 | Region | Single select | Geographic region | Americas, EMEA, Asia Pacific, Global |
@@ -218,15 +235,16 @@ When a new event is approved, these tasks are automatically created:
 | Primary Contact Email | Email | Leader/chair email | |
 | Events Hosted | Link to another record | Links to Events Master (as host) | Multiple allowed |
 | Events Co-Hosted | Link to another record | Links to Events Master (as co-host) | Multiple allowed |
-| Total Events | Count | Total events involved in | Auto-calculated |
+| Total Events | Number | Total events involved in | Manually tracked |
 | Members Count | Number | Approximate membership size | |
 | Status | Single select | Current status | Active, Inactive |
-| Description | Long text | Brief description of group | |
+| Description | Multi-line text | Brief description of group | |
 | Website | URL | Organization website/page | |
-| Social Media | Long text | Social media handles | |
-| Notes | Long text | Internal notes | |
+| Social Media | Multi-line text | Social media handles | |
+| Notes | Multi-line text | Internal notes | |
 | Created Date | Created time | Record creation date | Auto-generated |
 | Last Modified | Last modified time | Last update | Auto-generated |
+| Events Master | Link to another record | Links to Events Master | Multiple allowed (alternate link field) |
 
 ---
 
@@ -234,7 +252,9 @@ When a new event is approved, these tasks are automatically created:
 
 **Purpose**: Track all email communications sent for events, including templates and delivery status.
 
-### Fields
+**Table ID**: `tblWHIvwcC5DYGDRp`
+
+### Fields (20)
 
 | Field Name | Field Type | Description | Options/Validation |
 |------------|-----------|-------------|-------------------|
@@ -243,20 +263,21 @@ When a new event is approved, these tasks are automatically created:
 | Event | Link to another record | Links to Events Master | Required |
 | Related Task | Link to another record | Links to Tasks & Workflow | If applicable |
 | Subject Line | Single line text | Email subject | Required |
-| Template Name | Single select | Pre-built template used | List of standard templates |
-| Recipients | Long text | Email addresses (one per line) | |
+| Template Name | Single select | Pre-built template used | Template 1 |
+| Recipients | Multi-line text | Email addresses (one per line) | |
 | Recipient Count | Number | Total recipients | |
-| Sent Date | Date & Time | When email was sent | |
+| Sent Date | Date | When email was sent | |
 | Sent By | Link to another record | Links to Volunteers & Staff | |
 | Delivery Status | Single select | Email delivery status | Draft, Scheduled, Sent, Failed |
-| Email Body | Long text | Email content/body | |
-| Attachments | Attachment | Files attached to email | |
+| Email Body | Rich text | Email content/body | |
+| Attachments | Multiple attachments | Files attached to email | |
 | Reply-To Email | Email | Reply-to address | |
 | Opens | Number | Email open count (if tracked) | |
 | Clicks | Number | Link click count (if tracked) | |
-| Notes | Long text | Additional notes | |
+| Notes | Multi-line text | Additional notes | |
 | Created Date | Created time | Record creation | Auto-generated |
 | Last Modified | Last modified time | Last update | Auto-generated |
+| Events Master | Link to another record | Links to Events Master | Multiple allowed (alternate link field) |
 
 ---
 
@@ -264,29 +285,32 @@ When a new event is approved, these tasks are automatically created:
 
 **Purpose**: Store generated reports and analytics data for historical tracking.
 
-### Fields
+**Table ID**: `tblj7QCJz8xQSjMDG`
+
+### Fields (13)
 
 | Field Name | Field Type | Description | Options/Validation |
 |------------|-----------|-------------|-------------------|
-| Report ID | Auto Number | Unique identifier | Auto-generated |
 | Report Name | Single line text | Report title | Required |
 | Report Type | Single select | Category of report | Attendance Summary, Speaker Frequency, Event Performance, Volunteer Activity, Caucus Engagement, Monthly Summary, Quarterly Summary |
 | Date Range Start | Date | Report period start | Required |
 | Date Range End | Date | Report period end | Required |
 | Generated Date | Date | When report was created | Auto-filled |
-| Report File | Attachment | PDF/CSV file | |
-| Report URL | URL | Link to report (if hosted externally) | |
-| Key Metrics | Long text | Summary of key findings | |
+| Report File | Multiple attachments | PDF/CSV file | |
+| Report URL | Single line text | Link to report (if hosted externally) | |
+| Key Metrics | Multi-line text | Summary of key findings | |
 | Events Included | Link to another record | Links to Events Master | Multiple allowed |
-| Notes | Long text | Additional context or insights | |
+| Notes | Multi-line text | Additional context or insights | |
 | Created By | Single line text | Who/what generated report | System or person name |
+| Created Date | Created time | Record creation | Auto-generated |
+| Events Master | Link to another record | Links to Events Master | Multiple allowed (alternate link field) |
 
 ---
 
 ## Key Relationships
 
 ### Primary Relationships:
-1. **Events Master → Speakers Database**: Many-to-many (one event has multiple speakers; one speaker attends multiple events)
+1. **Events Master → Speakers**: Many-to-many (one event has multiple speakers; one speaker attends multiple events)
 2. **Events Master → Tasks & Workflow**: One-to-many (one event has many tasks)
 3. **Events Master → Volunteers & Staff**: Many-to-many (one event has multiple volunteers; one volunteer works multiple events)
 4. **Events Master → Committees & Caucuses**: Many-to-many (one event has multiple organizing groups; one group hosts multiple events)
@@ -295,6 +319,7 @@ When a new event is approved, these tasks are automatically created:
 7. **Tasks & Workflow → Email Communications**: One-to-many (one task may trigger multiple emails)
 8. **Email Communications → Volunteers & Staff**: Many-to-one (emails are sent by staff members)
 9. **Reports & Analytics → Events Master**: Many-to-many (one report covers multiple events)
+10. **Tasks & Workflow → Tasks & Workflow**: Many-to-many (tasks can have dependencies on other tasks)
 
 ---
 
@@ -312,11 +337,11 @@ When a new event is approved, these tasks are automatically created:
 | Speaker connection with DA | Special Instructions (include context) |
 | Overview | Overview/Purpose |
 | Audience | Target Audience, Expected Attendance |
-| Event date and timing | Event Date, Event Time, Timezone |
-| Status of Approval | Approval Status |
-| Approver | Approver |
+| Event date and timing | Event Date, Event Time |
 
-### Webinar Intake Form → Speakers Database Table
+**Note**: The Timezone, Approval Status, and Approver fields from the original Google Form are not included in the current schema. All events are assumed to be in Eastern Time (ET).
+
+### Webinar Intake Form → Speakers Table
 
 | Google Form Field | Airtable Field |
 |------------------|----------------|
@@ -324,7 +349,6 @@ When a new event is approved, these tasks are automatically created:
 | Email Address | Email (requestor - may differ from speaker) |
 | Speaker Name | Speaker Name |
 | Please add the name and email... | Team Members |
-| What time zone is the speaker in? | Timezone |
 | Please upload a photo... | Photo URL, Photo |
 | Please provide a bio... | Bio |
 | Will anyone from the speaker's team... | Team Members (conditional) |
@@ -346,137 +370,70 @@ When a new event is approved, these tasks are automatically created:
 ### Events Master Views:
 1. **All Events** - Default grid view
 2. **Upcoming Events** - Filtered to future dates, sorted by date
-3. **Events Pending Approval** - Filtered to "Pending Approval" status
-4. **Events This Month** - Calendar view
-5. **By Caucus/Committee** - Grouped by Host Organization
-6. **Completed Events** - Filtered to "Completed" status
+3. **Pending Approval** - Filtered to "Pending Approval" status
+4. **Events Calendar** - Calendar view by Event Date
+5. **By Caucus** - Grouped by Host Organization
+6. **Completed Events** - Filtered to "Completed" status, sorted descending
 
-### Speakers Database Views:
+### Speakers Views:
 1. **All Speakers** - Default grid view
 2. **Active Speakers** - Filtered to "Active" status
 3. **Frequent Speakers** - Sorted by Total Events (descending)
-4. **By Expertise** - Grouped by Specialties/Topics
-5. **Recently Added** - Sorted by Created Date (descending)
+4. **Recently Added** - Sorted by Created Date (descending)
 
 ### Tasks & Workflow Views:
 1. **All Tasks** - Default grid view
-2. **My Tasks** - Filtered by assigned person
-3. **Overdue Tasks** - Filtered to past due date + not completed
-4. **By Event** - Grouped by Event
-5. **By Status** - Grouped by Status
-6. **Timeline** - Timeline view by Due Date
+2. **Overdue Tasks** - Filtered to past due date + not completed
+3. **By Event** - Grouped by Event
+4. **By Status** - Grouped by Status
 
 ### Volunteers & Staff Views:
 1. **All Volunteers** - Default grid view
-2. **Active Volunteers** - Filtered to "Active" status
+2. **Active** - Filtered to "Active" status
 3. **By Role** - Grouped by Role Type
-4. **By Skills** - Grouped by Skills
-5. **Most Active** - Sorted by Total Events (descending)
+
+### Email Communications Views:
+1. **All Emails** - Default grid view
+2. **Recent Emails** - Sorted by Sent Date descending, last 50
+3. **By Event** - Grouped by Event
+4. **Failed Deliveries** - Filtered to "Failed" Delivery Status
 
 ---
 
-## Automation Recommendations
+## Schema Statistics
 
-### Airtable Native Automations:
-1. **New Event Approved** → Create standard workflow tasks
-2. **Event Date Approaching** → Send reminders 7, 3, 1 days before
-3. **Task Overdue** → Notify assigned person
-4. **Speaker Added to Event** → Send confirmation email
-5. **Event Completed** → Update status, trigger post-event tasks
+**Total Tables**: 7
+**Total Fields**: 167
+- Events Master: 50 fields
+- Speakers: 33 fields
+- Tasks & Workflow: 24 fields
+- Volunteers & Staff: 19 fields
+- Committees & Caucuses: 17 fields
+- Email Communications: 20 fields
+- Reports & Analytics: 13 fields
 
-### Python Script Automations:
-1. **Zoom Integration** → Create meetings, update links
-2. **NationBuilder Sync** → Publish events when approved
-3. **Mighty Networks Post** → Auto-post event announcements
-4. **Email Campaigns** → Send promotional emails to member list
-5. **Attendance Data Sync** → Pull Zoom registration/attendance data post-event
-6. **Weekly Reports** → Generate and email summary reports
+**Total Relationships**: 10 primary relationships (including self-referencing)
 
 ---
 
-## Reporting Capabilities
+## Design Notes
 
-### Available Reports (Via Python Scripts)
+### Removed Fields (from original design)
+- **Timezone** - All events use Eastern Time (ET), no need for separate field
+- **Approval Status** - Consolidated into single "Status" field
+- **Approver** - Removed in favor of "Events Approved" relationship in Volunteers & Staff table
 
-#### 1. **Event Management Reports**
-- **Upcoming Events Report** - All scheduled events with status, speakers, and task completion %
-- **Event History Report** - Past events with attendance, recording views, survey results
-- **Events by Caucus/Committee** - Breakdown of events hosted by each organizing group
-- **Event Timeline Report** - Gantt-style view of all events and their task deadlines
+### Duplicate Link Fields
+Several tables have multiple link fields to the same table (e.g., "Tasks & Workflow" and "Tasks" both linking Events Master to Tasks). These appear to be alternate relationship paths created during base setup and can be consolidated in future schema cleanup.
 
-#### 2. **Task Tracking Reports**
-- **Task Status Dashboard** - All tasks grouped by status (Not Started, In Progress, Completed, Blocked)
-- **Overdue Tasks Report** - Tasks past due date with assigned person and event
-- **Task Completion Rate** - Percentage of tasks completed on time vs late
-- **Task Assignment Report** - Who is assigned to what, workload distribution
-
-#### 3. **Communication Reports**
-- **Email Activity Report** - All emails sent, by type, with open/click rates
-- **Speaker Communication Tracking** - Status of intake forms sent/received, thank yous sent
-- **Platform Posting Report** - Track which events were posted to which platforms (NationBuilder, Mighty, Website, YouTube)
-
-#### 4. **Speaker Reports**
-- **Speaker Frequency Report** - Most frequent speakers, total events per speaker
-- **Speaker Database Report** - All active speakers with contact info and expertise
-- **New vs Returning Speakers** - Breakdown of new speakers vs repeat speakers per time period
-- **Speaker Consent Summary** - Recording/livestream consent status for all speakers
-
-#### 5. **Volunteer Reports**
-- **Volunteer Activity Report** - Events and tasks completed per volunteer
-- **Volunteer Skills Matrix** - Available volunteers by skill type
-- **Most Active Volunteers** - Top 10 volunteers by contribution
-
-#### 6. **Analytics Reports**
-- **Monthly Summary** - Total events, attendance, tasks completed, emails sent
-- **Quarterly Summary** - Trends over 3 months with comparisons to previous quarter
-- **Year-End Report** - Annual statistics and highlights
-- **Attendance Trends** - Average attendance by event type, caucus, time of day
-
-### Report Formats
-- **PDF** - Formatted reports for sharing with leadership
-- **CSV/Excel** - Raw data exports for further analysis
-- **HTML Dashboard** - Interactive web-based reports (if Flask/FastAPI added later)
-- **Email Summary** - Automated weekly/monthly email digests
-
-### Report Automation
-Python scripts can be scheduled to automatically generate and email reports:
-- **Weekly**: Upcoming events, overdue tasks
-- **Monthly**: Full event summary, speaker activity, volunteer contributions
-- **Quarterly**: Trend analysis, performance metrics
-- **Ad-hoc**: On-demand custom reports via command line
+### Field Type Notes
+- **Rich text** fields support formatted text with bold, italics, links, etc.
+- **Multi-line text** fields are plain text with line breaks
+- **Multiple attachments** allow uploading multiple files
+- **Rollup** fields calculate values from linked records
+- **Count** fields automatically count linked records
+- **Auto Number** fields generate sequential IDs
 
 ---
 
-## Migration Plan
-
-### Phase 1: Structure Setup
-1. Create all 7 tables in Airtable
-2. Set up field types and validations
-3. Configure relationships between tables
-4. Create recommended views
-5. Set up base-level permissions
-
-### Phase 2: Data Migration
-1. Import existing event data from Google Sheets
-2. Import speaker data from webinar intake forms
-3. De-duplicate and clean data
-4. Verify relationships are properly linked
-
-### Phase 3: Forms Setup
-1. Create Airtable form for event requests (replacing Google Form)
-2. Create Airtable form for speaker intake (replacing Google Form)
-3. Set up form notifications and automations
-4. Test form submissions end-to-end
-
-### Phase 4: Integration & Automation
-1. Develop Python scripts for API integrations
-2. Test Zoom, NationBuilder, Mighty Networks connections
-3. Implement task automation workflows
-4. Set up scheduled report generation
-
-### Phase 5: Training & Rollout
-1. Train event organizers on new system
-2. Create documentation and video tutorials
-3. Parallel run with old system for 2 weeks
-4. Full transition to Airtable system
-5. Decommission Google Forms
+*This schema documentation was generated from the live Airtable API on September 28, 2025.*
